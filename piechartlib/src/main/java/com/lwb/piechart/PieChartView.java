@@ -77,6 +77,12 @@ public class PieChartView extends SurfaceView implements SurfaceHolder.Callback,
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         mPath = new Path();
         mSurfaceHolder = getHolder();
+        
+        /*2018-4-27 解决滑动黑屏的问题*/
+        setZOrderOnTop(true);
+        getHolder().setFormat(PixelFormat.TRANSPARENT);
+        /*end*/
+        
         mSurfaceHolder.addCallback(this);
 
         pieRectF = new RectF();
@@ -113,9 +119,10 @@ public class PieChartView extends SurfaceView implements SurfaceHolder.Callback,
 
     @Override
     public void run() {
-        if (itemTypeList == null || itemTypeList.size() == 0) {
-            return;
-        }
+        //2018-4-27 解决请求数据后无反应问题：网络请求需要时间
+//         if (itemTypeList == null || itemTypeList.size() == 0) {
+//             return;
+//         }
         offRadius = 0f;
         while (offRadius <= 360f + 10) {
             if (!isDrawing) {
